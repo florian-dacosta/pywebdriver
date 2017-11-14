@@ -89,7 +89,9 @@ def telium_status():
         float(request.values['price']),
         request.values['payment_mode'])
     app.logger.debug('Telium status info=%s', info)
+    print "kk"
     telium_driver.push_task('transaction_start', json.dumps(
         info, sort_keys=True))
+    print 'end'
     return render_template('telium_status.html')
 
