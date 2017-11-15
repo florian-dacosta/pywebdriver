@@ -107,6 +107,14 @@ Then you can launch and use pywebdriver running ```python pywebdriverd``` from t
 Note that you probably will need to change the configuration file. For instance, for telium driver, you need to replace 
 device_name=/dev/ttyACM0 by device_name=COM* depending on the usb port used by the card reader (could be COM4, COM5...)
 
+## <a name="bundle-pyinstaller"></a>Package it into a windows .exe file with pyinstaller
+* Install PyWin32
+* Install pyinstaller
+* ```pysintaller --onefile pywebdriverd.spec``
+
+babel < 1.5.0 else it won't be compatible with pyinstaller => https://github.com/python-babel/babel/issues/529
+Config file have to be modified before making the .exe file. (We should implement a default location for config file on windows)
+
 ## <a name="browser-settings"></a>Browser settings
 
 You need to confirmed security exception on your browers for the following paths: http://localhost and https://localhost

@@ -25,6 +25,7 @@
 # Core Imports
 import gettext
 import os
+import sys
 
 from ConfigParser import ConfigParser
 
@@ -40,6 +41,9 @@ PACKAGE_CONFIG_PATH = '/etc/pywebdriver/config.ini'
 config_file = PACKAGE_CONFIG_PATH
 if not os.path.isfile(config_file):
     config_file = LOCAL_CONFIG_PATH
+# For pyinstaller when the app is bundle is one .exe file
+if not os.path.isfile(config_file) and getattr(sys, 'frozen', False):
+    config_file = os.path.join(sys._MEIPASS, 'config/config.ini')
 assert os.path.isfile(config_file), (
     'Could not find config file (looking at %s and then %s )' % (
         PACKAGE_CONFIG_PATH, LOCAL_CONFIG_PATH))
@@ -50,7 +54,12 @@ drivers = {}
 
 # Project Import
 # Application
-app = Flask(__name__)
+# Case app is bundle in one .exe file with pyinstaller
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys._MEIPASS, 'templates')
+    app = Flask(__name__, template_folder=template_folder)
+else:
+    app = Flask(__name__)
 
 from . import views
 from . import plugins
@@ -62,6 +71,8 @@ babel = Babel(app)
 path = os.path.join(
     os.path.dirname(os.path.realpath(__file__)),
     'translations')
+if getattr(sys, 'frozen', False):
+    path = os.path.join(sys._MEIPASS, 'translations')
 localization = config.get('localization', 'locale')
 language = gettext.translation(
     'messages',
