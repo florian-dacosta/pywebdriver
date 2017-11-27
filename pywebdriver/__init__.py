@@ -30,10 +30,10 @@ from ConfigParser import ConfigParser
 
 # Librairies Imports
 from flask import Flask
-from flask.ext.babel import Babel
+from flask_babel import Babel
 
 # Config Section
-LOCAL_CONFIG_PATH = '%s/../config/config.ini' % os.path.dirname(
+LOCAL_CONFIG_PATH = '%s/config/config.ini' % os.path.dirname(
     os.path.realpath(__file__))
 PACKAGE_CONFIG_PATH = '/etc/pywebdriver/config.ini'
 
